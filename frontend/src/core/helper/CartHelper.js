@@ -1,0 +1,70 @@
+export const AddItemToCart = (item, next) => {
+    let cart = [];
+    if (typeof window !== undefined) {
+        if (localStorage.getItem("cart")) {
+            cart = JSON.parse(localStorage.getItem("cart"));
+        }
+        const found = cart.some(el => el.name === item.name);
+        //console.log(found);
+
+        if (!found) {
+            cart.push({
+                ...item,
+                count: 1
+            });
+        } else {
+            cart = cart.map(p => p.name === item.name ? {...p, count: p.count + 1 } : p);
+            console.log(cart);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        next();
+    }
+};
+
+export const loadCart = () => {
+    if (typeof window !== undefined) {
+        if (localStorage.getItem("cart")) {
+            return JSON.parse(localStorage.getItem("cart"));
+        }
+    }
+};
+
+export const removeItemFromCart = (productId) => {
+    let cart = [];
+    if (typeof window !== undefined) {
+        if (localStorage.getItem("cart")) {
+            cart = JSON.parse(localStorage.getItem("cart"));
+        }
+        cart.map((product, index) => {
+            if (product._id === productId) {
+                cart.splice(index, 1);
+            }
+        });
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
+    return cart;
+};
+
+export const cartEmpty = next => {
+    if (typeof window !== undefined) {
+        localStorage.removeItem("cart");
+
+        let cart = [];
+        localStorage.setItem("cart", JSON.stringify(cart));
+        next();
+    }
+};
+
+export const addProductCount = (productId, inccount) => {
+    let cart = [];
+    if (typeof window !== undefined) {
+        if (localStorage.getItem("cart")) {
+            cart = JSON.parse(localStorage.getItem("cart"));
+        }
+        cart = cart.map(p => p._id === productId ? {...p, count: Number(inccount) } : p);
+        console.log(cart);
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
+    return cart;
+};
