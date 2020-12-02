@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { loadCart, cartEmpty } from "./helper/CartHelper";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { getmeToken, processPayment } from "./helper/PaymentBHelper";
 import { createOrder } from "./helper/OrderHelper";
 import { isAuthenticated } from "../auth/helper";
@@ -20,6 +20,14 @@ const Paymentb = ({ products, setReload = f => f, reload = undefined }) => {
   const token = isAuthenticated() && isAuthenticated().token;
 
   const check = isAuthenticated();
+
+  const [redirect, setRedirect] = useState(false);
+
+    const getARedirect = (redirect) => {
+      if(redirect){
+          return <Redirect to="/user/orders" />;
+      }
+    };
   
   const message = check ? (<h3>Please add items to cart</h3>) : (<h3>Please login to continue</h3>);  
 
@@ -89,6 +97,11 @@ const Paymentb = ({ products, setReload = f => f, reload = undefined }) => {
           });
           
           setReload(!reload);
+
+          setTimeout(
+            () => setRedirect(true), 
+            3000
+        );
         })
         .catch(error => {
           setInfo({ loading: false, success: false });
@@ -110,6 +123,7 @@ const Paymentb = ({ products, setReload = f => f, reload = undefined }) => {
     <div>
       {isAuthenticated() ? (<h3>Your bill is Rs.{getAmount()} </h3>): (<h3></h3>)}
       {showbtdropIn()}
+      {getARedirect(redirect)}
     </div>
   );
 };

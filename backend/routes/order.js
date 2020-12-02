@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { getOrderById, createOrder, getAllOrders, getOrderStatus, updateStatus } = require("../controllers/order");
+const { getOrderById, createOrder, getAllOrders, getOrders, getOrderStatus, updateStatus } = require("../controllers/order");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 const { getUserById, pushOrderinPurchaseList } = require("../controllers/user");
 const { updateStock } = require("../controllers/product");
@@ -16,6 +16,7 @@ router.post("/order/create/:userId", isSignedIn, isAuthenticated, pushOrderinPur
 
 //read
 router.get("/order/all/:userId", isSignedIn, isAuthenticated, isAdmin, getAllOrders);
+router.get("/order/user/:userId", isSignedIn, isAuthenticated, getOrders);
 
 //order status
 router.get("/order/status/:userId", isSignedIn, isAuthenticated, isAdmin, getOrderStatus);

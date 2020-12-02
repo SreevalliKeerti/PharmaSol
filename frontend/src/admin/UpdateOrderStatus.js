@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Base from "../core/Base";
 import { isAuthenticated } from '../auth/helper';
-import {  getOneOrder, getOrders, getOrderStatuses, updateOrderStatus } from './helper/adminapicall';
+import {  getOneOrder, getOrders, getOrderStatuses, getUserOrders, updateOrderStatus } from './helper/adminapicall';
 
 const UpdateOrderStatus = ({match}) => {
 
@@ -11,6 +11,14 @@ const UpdateOrderStatus = ({match}) => {
     const [success,setSuccess]=useState(false);
 
     const{user, token}=isAuthenticated();
+
+    const [redirect, setRedirect] = useState(false);
+
+    const getARedirect = (redirect) => {
+      if(redirect){
+          return <Redirect to="/admin/orders" />;
+      }
+    };
 
     const goBack=()=>{
         return (
@@ -28,10 +36,16 @@ const UpdateOrderStatus = ({match}) => {
     
     const successMessage=()=>{
         if(success){
+            setTimeout(
+                () => setRedirect(true), 
+                3000
+            );
             return (
-            <h4 className="alert alert-success mt-3">Status Updated Successfully</h4>
-            )
-        }
+            <h4 className="alert alert-success mt-3">Status Updated Successfully!!
+             </h4>
+            
+            )     
+        }   
     }
 
     const warningMessage=()=>{
@@ -86,6 +100,7 @@ const UpdateOrderStatus = ({match}) => {
                     {successMessage()}
                     {warningMessage()}
                     {myOrderForm()}
+                    {getARedirect(redirect)}
                 </div>
             </div>
         </Base>

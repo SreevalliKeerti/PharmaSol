@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Base from "../core/Base";
 
 import { isAuthenticated } from '../auth/helper';
@@ -13,6 +13,14 @@ const UpdateUser = () => {
     const [success,setSuccess]=useState(false);
 
     const{user, token}=isAuthenticated();
+
+    const [redirect, setRedirect] = useState(false);
+
+    const getARedirect = (redirect) => {
+      if(redirect){
+          return <Redirect to="/user/dashboard" />;
+      }
+    };
 
     const goBack=()=>{
         return (
@@ -49,6 +57,10 @@ const UpdateUser = () => {
 
     const successMessage=()=>{
         if(success){
+            setTimeout(
+                () => setRedirect(true), 
+                3000
+            );
             return (
             <h4 className="alert alert-success mt-3">Info Updated Successfully</h4>
             )
@@ -110,6 +122,7 @@ const UpdateUser = () => {
                     {successMessage()}
                     {warningMessage()}
                     {myOrderForm()}
+                    {getARedirect(redirect)}
                 </div>
             </div>
         </Base>

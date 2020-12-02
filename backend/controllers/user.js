@@ -69,7 +69,7 @@ exports.pushOrderinPurchaseList = (req, res, next) => {
             status: req.body.order.status,
             totalamount: req.body.order.amount,
             transaction_id: req.body.order.transaction_id,
-            purchasedAt: dateString
+            purchasedAt: currentDate.toString()
         });
     });
 

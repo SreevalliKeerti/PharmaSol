@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { isAuthenticated } from '../auth/helper';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Base from '../core/Base';
 import { updateCategory, getCategory } from './helper/adminapicall';
 
@@ -11,6 +11,14 @@ const UpdateCategory=({match})=>{
     const [success,setSuccess]=useState(false);
 
     const{user, token}=isAuthenticated();
+
+    const [redirect, setRedirect] = useState(false);
+
+    const getARedirect = (redirect) => {
+      if(redirect){
+          return <Redirect to="/admin/categories" />;
+      }
+    };
 
     const goBack=()=>{
         return (
@@ -41,6 +49,10 @@ const UpdateCategory=({match})=>{
 
     const successMessage=()=>{
         if(success){
+            setTimeout(
+                () => setRedirect(true), 
+                3000
+            );
             return (
             <h4 className="alert alert-success mt-3">Category Updated Successfully</h4>
             )
@@ -98,6 +110,7 @@ const UpdateCategory=({match})=>{
                     {successMessage()}
                     {warningMessage()}
                     {myCategoryForm()}
+                    {getARedirect(redirect)}
                 </div>
             </div>
         </Base>

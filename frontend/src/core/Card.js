@@ -9,8 +9,8 @@ const Card = ({
         removefromCart = false,
         setReload = f => f,
         reload = undefined,
-        setRefresh = f => f,
-        refresh = undefined
+        //setRefresh = f => f,
+        //refresh = undefined
     }) => {
     
     const [redirect, setRedirect] = useState(false);
@@ -54,19 +54,19 @@ const Card = ({
                     <button 
                     onClick={() => {
                         handleChangeDec();
-                        setRefresh(!refresh);}}  
+                        setReload(!reload);}}  
                     className="btn btn-danger mt-4">-</button> 
                     <div className="col-5">
                         <p className="text-center">Quantity</p>
                         <input type="number" 
                         onChange={(event) => {
                             handleChange(event);
-                            setRefresh(!refresh);}}
+                            setReload(!reload);}}
                         className="form-control" placeholder="Quantity" value={count}/></div>
                     <button 
                     onClick={() => {
                         handleChangeInc();
-                        setRefresh(!refresh);}} 
+                        setReload(!reload);}} 
                     className="btn btn-success mt-4">+</button><div className="col-4"></div>
                     {changeCount()}     
                 </div>

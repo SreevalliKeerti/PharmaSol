@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Base from "../core/Base";
 import { createProduct, getCategories } from './helper/adminapicall';
 import { isAuthenticated } from '../auth/helper';
@@ -7,6 +7,14 @@ import { isAuthenticated } from '../auth/helper';
 const AddProduct = () => {
 
     const {user, token} = isAuthenticated();
+
+    const [redirectt, setRedirectt] = useState(false);
+
+    const getTheRedirect = (redirectt) => {
+      if(redirectt){
+          return <Redirect to="/admin/products" />;
+      }
+    };
 
     const [values, setValues] = useState({
         name: "",
@@ -60,6 +68,10 @@ const AddProduct = () => {
               });
             }
           });
+          setTimeout(
+            () => setRedirectt(true), 
+            6000
+          );
     };
 
     const handleChange = name => event => {
@@ -123,6 +135,7 @@ const AddProduct = () => {
                     {successMessage()}
                     {warningMessage()}
                     {createProductForm()}
+                    {getTheRedirect(redirectt)}
                 </div>
             </div>
        </Base>

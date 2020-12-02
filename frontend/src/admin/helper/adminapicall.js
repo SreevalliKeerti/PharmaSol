@@ -159,6 +159,20 @@ export const getOrders = (userId, token) => {
         .catch(err => console.log(err));
 };
 
+//read one user's order
+export const getUserOrders = (userId) => {
+    return fetch(`${API}/order/user/${userId}`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+            }
+        })
+        .then(response => {
+            return response.json()
+        })
+        .catch(err => console.log(err));
+};
+
 //read order status
 export const updateOrderStatus = (orderId, userId, token, order) => {
     return fetch(`${API}/order/status/${orderId}/${userId}`, {

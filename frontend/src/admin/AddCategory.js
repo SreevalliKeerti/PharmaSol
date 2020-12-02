@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { isAuthenticated } from '../auth/helper';
 import Base from '../core/Base';
 import {createCategory} from "./helper/adminapicall"
@@ -11,6 +11,14 @@ const AddCategory = () => {
     const [success, setSuccess] = useState(false);
 
     const {user, token} = isAuthenticated();
+
+    const [redirect, setRedirect] = useState(false);
+
+    const getARedirect = (redirect) => {
+      if(redirect){
+          return <Redirect to="/admin/categories" />;
+      }
+    };
 
     const goBack = () => (
         <div className="mt-5">
@@ -43,6 +51,10 @@ const AddCategory = () => {
 
     const successMessage = () => {
         if(success){
+        setTimeout(
+            () => setRedirect(true), 
+            3000
+        );
         return <h4 className="alert alert-success mt-3">Category created successfully!!</h4>;
         }
     };
@@ -74,7 +86,7 @@ const AddCategory = () => {
                     {successMessage()}
                     {warningMessage()}
                     {myCategoryForm()}
-                   
+                    {getARedirect(redirect)}
                 </div>
             </div>
         </Base>      

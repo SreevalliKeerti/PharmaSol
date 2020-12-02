@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Base from "../core/Base";
 import { getProduct, getCategories, updateProduct } from './helper/adminapicall';
 import { isAuthenticated } from '../auth/helper';
@@ -7,6 +7,14 @@ import { isAuthenticated } from '../auth/helper';
 const UpdateProduct = ({match}) => {
 
     const {user, token} = isAuthenticated();
+
+    const [redirect1, setRedirect1] = useState(false);
+
+    const getRedirect = (redirect1) => {
+      if(redirect1){
+          return <Redirect to="/admin/products" />;
+      }
+    };
 
     const [values, setValues] = useState({
         name: "",
@@ -83,6 +91,10 @@ const UpdateProduct = ({match}) => {
               });
             }
           });
+          setTimeout(
+            () => setRedirect1(true), 
+            6000
+          );
     };
 
     const handleChange = name => event => {
@@ -94,6 +106,7 @@ const UpdateProduct = ({match}) => {
     const successMessage = () => (
       <div className="alert alert-success mt-3" style={{display: createdProduct ? "" : "none"}}>
         <h4>{createdProduct} updated successfully</h4>
+        
       </div>
     );
 
@@ -146,6 +159,7 @@ const UpdateProduct = ({match}) => {
                     {successMessage()}
                     {warningMessage()}
                     {createProductForm()}
+                    {getRedirect(redirect1)}
                 </div>
             </div>
        </Base>
