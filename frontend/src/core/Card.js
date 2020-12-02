@@ -9,6 +9,8 @@ const Card = ({
         removefromCart = false,
         setReload = f => f,
         reload = undefined,
+        setRefresh = f => f,
+        refresh = undefined
     }) => {
     
     const [redirect, setRedirect] = useState(false);
@@ -52,19 +54,19 @@ const Card = ({
                     <button 
                     onClick={() => {
                         handleChangeDec();
-                        setReload(!reload);}}  
+                        setRefresh(!refresh);}}  
                     className="btn btn-danger mt-4">-</button> 
                     <div className="col-5">
                         <p className="text-center">Quantity</p>
                         <input type="number" 
                         onChange={(event) => {
                             handleChange(event);
-                            setReload(!reload);}}
+                            setRefresh(!refresh);}}
                         className="form-control" placeholder="Quantity" value={count}/></div>
                     <button 
                     onClick={() => {
                         handleChangeInc();
-                        setReload(!reload);}} 
+                        setRefresh(!refresh);}} 
                     className="btn btn-success mt-4">+</button><div className="col-4"></div>
                     {changeCount()}     
                 </div>
@@ -89,16 +91,30 @@ const Card = ({
     };
 
     const handleChange = (event) => {
-        setCount(event.target.value);
-       
+        if(event.target.value <= product.stock){
+            setCount(event.target.value);
+        }    
+        else{
+            event.target.value = product.stock;
+        }
     }
     
     const handleChangeInc = () => {
-        setCount(Number(count)+Number(1));
+        if(Number(count)+Number(1) <= product.stock){
+            setCount(Number(count)+Number(1));
+        }
+        else{
+            setCount(Number(count));
+        }
     }
 
     const handleChangeDec = () => {
-        setCount(Number(count)-Number(1));
+        if(Number(count)-Number(1) >= 0){
+            setCount(Number(count)-Number(1));
+        }
+        else{
+            setCount(Number(count));
+        }
     }
     console.log(count);
 
