@@ -2,4 +2,4 @@
 
 Todo: Reset Password, Password Update
 
-Bug: Status update at user end 
+Bug: Status update at user end, Page reload for emptying cart
