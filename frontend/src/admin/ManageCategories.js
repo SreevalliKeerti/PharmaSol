@@ -7,6 +7,8 @@ import { deleteCategory, getCategories } from './helper/adminapicall';
 const ManageCategories = () => {
 
     const [categories, setCategories] = useState([]);
+    const [search, setSearch] = useState('');
+    const [filteredCategories, setFilteredCategories] = useState([]);
 
     const {user, token} = isAuthenticated();
 
@@ -34,12 +36,25 @@ const ManageCategories = () => {
         });
     };
 
+    useEffect(() => {
+        setFilteredCategories(
+          categories.filter( category => {
+            return category.name.toLowerCase().includes( search.toLowerCase() )
+          })
+        )
+      }, [search, categories])
+
     return (
         <Base title="Welcome admin" description="Manage categories here">
-        <h2 className="mb-4">All categories:</h2>
         <Link className="btn btn-dark mb-4" to={`/admin/dashboard`}>
           <span className="">Admin Home</span>
         </Link>
+        <div className="d-flex justify-content-end mb-4">
+            <input type="text" className="form-control col-3" placeholder="Search here" onChange = { e => setSearch(e.target.value) } />
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">Search</span>
+            </div>
+        </div>
         <div className="row">
           <div className="col-12">
             <table className="table table-bordered table-hover table-striped">
@@ -51,7 +66,7 @@ const ManageCategories = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {categories.map((category, index) => {
+                    {filteredCategories.map((category, index) => {
                         return(
                             <tr key={index}>
                                 <td>{category.name}</td>

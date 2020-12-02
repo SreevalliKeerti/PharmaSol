@@ -7,6 +7,8 @@ import { deleteProduct, getProducts } from './helper/adminapicall';
 const ManageProducts = () => {
 
     const [products, setProducts] = useState([]);
+    const [search, setSearch] = useState('');
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
     const {user, token} = isAuthenticated();
 
@@ -34,12 +36,25 @@ const ManageProducts = () => {
         });
     };
 
+    useEffect(() => {
+        setFilteredProducts(
+          products.filter( product => {
+            return product.name.toLowerCase().includes( search.toLowerCase() )
+          })
+        )
+      }, [search, products])
+
     return (
         <Base title="Welcome admin" description="Manage products here">
-        <h2 className="mb-4">All products:</h2>
         <Link className="btn btn-dark mb-4" to={`/admin/dashboard`}>
           <span className="">Admin Home</span>
         </Link>
+        <div className="d-flex justify-content-end mb-4">
+            <input type="text" className="form-control col-3" placeholder="Search here" onChange = { e => setSearch(e.target.value) } />
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">Search</span>
+            </div>
+        </div>
         <div className="row">
           <div className="col-12">
             <table className="table table-bordered table-hover table-striped">
@@ -53,7 +68,7 @@ const ManageProducts = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map((product, index) => {
+                    {filteredProducts.map((product, index) => {
                         return(
                             <tr key={index}>
                                 <td>{product.name}</td>
