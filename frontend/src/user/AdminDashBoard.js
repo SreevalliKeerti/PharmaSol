@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Base from "../core/Base";
 import {isAuthenticated} from "../auth/helper/index"; 
 import { Link } from 'react-router-dom';
+import { getUser } from '../admin/helper/adminapicall';
 
 const AdminDashBoard = () => {
 
-    const {user: {name, email, role}} = isAuthenticated();
+    const [name,setName]=useState("");
+    const [email,setEmail]=useState("");
+
+    const {user, token} = isAuthenticated();
+
+    const preload=()=>{
+        getUser(user._id, token).then((data)=>{
+            if(data.error){
+                //
+            }else{
+                setName(data.name);
+                setEmail(data.email);
+            }
+        })
+    }
+
+    useEffect(()=>{
+       preload()
+    },[])
     
     const adminleftside = () => {
         return(
@@ -26,6 +45,12 @@ const AdminDashBoard = () => {
                     </li>
                     <li className="list-group-item">
                         <Link to="/admin/orders" className="nav-link text-info">Manage Orders</Link>
+                    </li>
+                    <li className="list-group-item">
+                        <Link to="/admin/users" className="nav-link text-info">View Users</Link>
+                    </li>
+                    <li className="list-group-item">
+                        <Link to="/admin/update/info" className="nav-link text-info">Update My Info</Link>
                     </li>
                 </ul>
             </div>

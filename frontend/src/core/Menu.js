@@ -36,7 +36,7 @@ const Menu = ({history}) => (
 
                 {!isAuthenticated() && (
                     <Fragment>
-                        <li className="nav-item">
+                        <li className="nav-item offset-sm-9">
                             <Link style={currentTab(history, "/signup")} className="nav-link" to="/signup">Sign Up</Link>
                         </li>
                         <li className="nav-item">
@@ -46,7 +46,7 @@ const Menu = ({history}) => (
                 )}
 
                 {isAuthenticated() && (
-                    <li className="nav-item">
+                    <li className="nav-item offset-sm-8">
                        <span className="nav-link text-warning" 
                        onClick={() => {
                            signout(() => {

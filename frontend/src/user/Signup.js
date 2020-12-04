@@ -58,7 +58,9 @@ const SignUp = () => {
               <label className="text-dark">Password</label>
               <input className="form-control" onChange={handleChange("password")} type="password" value={password}/>
             </div>
-            <button onClick={onSignup} className="btn btn-success btn-block">Sign Up</button>
+            <div className="col-4 offset-sm-4">
+              <button onClick={onSignup} className="btn btn-outline-success btn-block">Sign Up</button>
+            </div>
           </form>
         </div>
       </div>
@@ -92,7 +94,6 @@ const SignUp = () => {
       {successMessage()}
       {errorMessage()}
       {signUpForm()}
-  <p className="text-white text-center">{JSON.stringify(values)}</p>
     </Base>
   );
 };

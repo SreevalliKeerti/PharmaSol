@@ -22,10 +22,21 @@ exports.getUserById = (req, res, next, id) => {
 };
 
 exports.getUser = (req, res) => {
-    //TODO: Get back here for password
+
     req.profile.salt = undefined;
     req.profile.encry_password = undefined;
     return res.json(req.profile);
+};
+
+exports.getAllUsers = (req, res) => {
+    User.find().exec((err, users) => {
+        if (err) {
+            return res.status(400).json({
+                error: "Not category found in DB"
+            });
+        }
+        res.json(users);
+    });
 };
 
 exports.updateUser = (req, res) => {

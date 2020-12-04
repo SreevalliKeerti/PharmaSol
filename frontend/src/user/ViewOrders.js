@@ -25,6 +25,8 @@ const ViewOrders = () => {
         preload();
      }, []);
 
+    
+
     return (
         <Base title="Previous Orders" description="You can view all your order history here">
             <Link className="btn btn-dark mb-4" to={`/user/dashboard`}>

@@ -109,7 +109,7 @@ const Card = ({
     }
 
     const handleChangeDec = () => {
-        if(Number(count)-Number(1) >= 0){
+        if(Number(count)-Number(1) > 0){
             setCount(Number(count)-Number(1));
         }
         else{

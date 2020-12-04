@@ -3,14 +3,13 @@ import { Link, Redirect } from 'react-router-dom';
 import Base from "../core/Base";
 
 import { isAuthenticated } from '../auth/helper';
-import { getUser, updateUser } from './helper/userapicalls';
+import { getUser, updateUser } from './helper/adminapicall';
 
-const UpdateUser = () => {
+const UpdateMyInfo = () => {
     
     const [name,setName]=useState("");
     const [email,setEmail]=useState("");
-    const [password,setPassword]=useState("");
-    const [cpassword,setCPassword]=useState("");
+
     const [error,setError]=useState(false);
     const [success,setSuccess]=useState(false);
 
@@ -20,14 +19,14 @@ const UpdateUser = () => {
 
     const getARedirect = (redirect) => {
       if(redirect){
-          return <Redirect to="/user/dashboard" />;
+          return <Redirect to="/admin/dashboard" />;
       }
     };
 
     const goBack=()=>{
         return (
             <div className="mt-5">
-                <Link className="btn btn-small btn-dark mb-4" to="/user/dashboard">User Home</Link>
+                <Link className="btn btn-small btn-dark mb-4" to="/admin/dashboard">Admin Home</Link>
             </div>
         )
     }
@@ -57,17 +56,6 @@ const UpdateUser = () => {
         setEmail(event.target.value);
     }
 
-    const handleChangePassword=(event)=>{
-        setError("");
-        setPassword(event.target.value);
-    }
-
-    const handleChangeCPassword=(event)=>{
-        setError("");
-        setCPassword(event.target.value);
-    }
-
-
     const successMessage=()=>{
         if(success){
             setTimeout(
@@ -92,11 +80,11 @@ const UpdateUser = () => {
         event.preventDefault();
         setError("");
         setSuccess(false);
-        //console.log(name);
+        console.log(name);
         // Backend request fired
         updateUser(user._id, token, {name, email})
         .then((data)=>{
-            console.log(data)
+            //console.log(data)
             if(data.error){
                 setError(true)
             }
@@ -105,12 +93,11 @@ const UpdateUser = () => {
                 setSuccess(true);
                 setName("");
                 setEmail("");
-                setPassword("");
             }
         })
     }
 
-    const myOrderForm=()=>{
+    const myForm=()=>{
         
         return (
         <form>
@@ -135,7 +122,7 @@ const UpdateUser = () => {
                 <div className="col-md-8 offset-md-2">
                     {successMessage()}
                     {warningMessage()}
-                    {myOrderForm()}
+                    {myForm()}
                     {getARedirect(redirect)}
                 </div>
             </div>
@@ -143,6 +130,4 @@ const UpdateUser = () => {
     )
 };
 
-//TODO: Perform a redirect
-
-export default UpdateUser; 
+export default UpdateMyInfo; 

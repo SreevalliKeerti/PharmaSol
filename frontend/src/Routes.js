@@ -19,6 +19,8 @@ import Orders from './admin/Orders';
 import ViewOrders from './user/ViewOrders';
 import UpdateOrderStatus from './admin/UpdateOrderStatus';
 import UpdateUser from './user/UpdateUser';
+import ViewUsers from './admin/ViewUsers';
+import UpdateMyInfo from './admin/UpdateMyInfo';
 
 const Routes = () => {
     return (
@@ -40,6 +42,8 @@ const Routes = () => {
                 <AdminRoute path="/admin/product/update/:productId" exact component={UpdateProduct} />
                 <AdminRoute path="/admin/orders" exact component={Orders} />
                 <AdminRoute path="/admin/order/status/:orderId" exact component={UpdateOrderStatus} />
+                <AdminRoute path="/admin/users" exact component={ViewUsers} />
+                <AdminRoute path="/admin/update/info" exact component={UpdateMyInfo} />
             </Switch>
         </BrowserRouter>
     );
