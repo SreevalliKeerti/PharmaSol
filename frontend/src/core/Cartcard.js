@@ -132,7 +132,7 @@ const Cartcard = ({
 
     return (
         <div className="card text-dark bg-light border border-info ">
-        <div className="card-header lead">{cardTitle}</div>
+        <div className="card-header lead"><b>{cardTitle}</b></div>
         <div className="card-body">
             {getARedirect(redirect)}
             <p className="btn btn-success rounded  btn-sm px-4">Rs. {cardPrice}</p><br/>
