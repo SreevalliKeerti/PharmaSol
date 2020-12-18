@@ -1,6 +1,16 @@
 const { Order, ProductCart } = require("../models/order");
 const User = require("../models/user");
 const { getUserById } = require("./user");
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'ksskeerti@gmail.com',
+        pass: 'indhra159'
+    }
+});
+
 
 exports.getOrderById = (req, res, next, id) => {
     Order.findById(id)
@@ -26,6 +36,32 @@ exports.createOrder = (req, res) => {
             });
         }
         res.json(order);
+
+        const mailOptions = {
+            from: 'ksskeerti@gmail.com',
+            to: req.body.order.user.email,
+            subject: 'You Order Received!',
+            /*text: `We received your order of ${order.products.map((product, index) => {
+                return(product.name);
+            })}`*/
+            html: `<h3>Hi ${req.body.order.user.name}!!</h3><p>We received your order
+                    ${order.products.map((product, index) => {
+                        return(product.name);
+                    })} products of quantity
+                    ${order.products.map((product, index) => {
+                        return(product.count);
+                    })} boxes each</p>
+                    <h5>Regards,</h5>
+                    <h5>Bioscodex</h5>`
+        };
+
+        transporter.sendMail(mailOptions, function(error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                //console.log('Email sent: ' + info.response);
+            }
+        });
     });
 };
 

@@ -5,6 +5,7 @@ import Base from "./Base";
 import Card from "./Card";
 import { loadCart } from "./helper/CartHelper";
 import Payment from "./Payment";
+import Cartcard from "./Cartcard";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -19,7 +20,7 @@ const Cart = () => {
         <div>
             <h2>Products in Cart</h2>
             {products.map((product, index) => (
-                <Card key={index} product={product} removefromCart={true} addtoCart={false} setReload={setReload} reload={reload}/>
+                <Cartcard key={index} product={product} removefromCart={true} addtoCart={false} setReload={setReload} reload={reload}/>
             ))}
         </div>
     );

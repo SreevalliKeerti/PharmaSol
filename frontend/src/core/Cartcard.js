@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { Redirect } from "react-router-dom";
 import { AddItemToCart, removeItemFromCart, addProductCount } from './helper/CartHelper';
-import ImageHelper from './helper/ImageHelper';
 
-const Card = ({
+const Cartcard = ({
         product,
         addtoCart = true,
         removefromCart = false,
@@ -18,7 +17,6 @@ const Card = ({
     const [count, setCount] = useState(product.count);
 
     const cardTitle = product ? product.name : "A product";
-    const cardDescription = product ? product.description : "A product description";
     const cardPrice = product ? product.price : "0.00";
     const cardAvailability = product ? product.stock : "0";
 
@@ -134,15 +132,11 @@ const Card = ({
 
     return (
         <div className="card text-dark bg-light border border-info ">
-        <div className="card-header lead"><b>{cardTitle}</b></div>
+        <div className="card-header lead">{cardTitle}</div>
         <div className="card-body">
             {getARedirect(redirect)}
-            <ImageHelper product={product}/>
-            <p className="lead bg-dark rounded font-weight-normal text-wrap text-light">
-                {cardDescription}
-            </p>
-            <p className="btn btn-info rounded  btn-sm px-4">Rs. {cardPrice}</p><br/>
-            <p className="btn btn-dark rounded  btn-sm px-4 mb-0">Current Available Stock: {cardAvailability} boxes</p>
+            <p className="btn btn-success rounded  btn-sm px-4">Rs. {cardPrice}</p><br/>
+            <p className="btn btn-warning rounded  btn-sm px-4 mb-0">Current Available Stock: {cardAvailability} boxes</p>
             <div className="row">
             <div className="col-12">
                 {showAddtoCart(addtoCart)}
@@ -162,4 +156,4 @@ const Card = ({
     );
     };
 
-export default Card;
+export default Cartcard;

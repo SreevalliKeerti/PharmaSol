@@ -151,7 +151,7 @@ const UpdateProduct = ({match}) => {
       );
 
     return (
-       <Base title="Add Product" description="Create a product here!"
+       <Base title="Product Updation Area" description="An area for updation of Products"
                 className="container bg-info p-4">
             <Link to="/admin/dashboard" className="btn btn-md btn-dark mb-3">Admin Home</Link>
             <div className="row bg-light text-dark rounded">

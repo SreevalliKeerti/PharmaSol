@@ -1,0 +1,52 @@
+import React, {useState, useEffect} from 'react';
+import { isAuthenticated } from '../auth/helper';
+
+import Base from "../core/Base";
+import { getUser } from './helper/userapicalls';
+
+const UserDashBoard = () => {
+
+    const [records, setRecords] = useState([]);
+
+    const {user, token} = isAuthenticated();
+
+    const preload = () => {
+        getUser(user._id, token).then(data => {
+            //console.log(data.purchases.length);
+            if(data.error){
+                console.log(data.error);
+            }else{
+                setRecords(data.purchases);
+            }
+        });
+    }
+
+    useEffect(() => {
+        preload();
+     }, []);
+
+    return (
+        <Base title="UserDashBoard Page">
+            <h1>Previous Orders</h1>   
+            <div className="row">
+          <div className="col-12">
+          {records && records.length > 0
+        ? records.map((record, index) => {
+            return (
+                <div key={index} className="row text-center mb-2 ">
+                    <div className="col-4">
+                        <h3 className="text-dark text-left">{record.name}</h3>
+                    </div>
+                    <div className="col-4">
+                        <h3 className="text-dark text-left">Rs. {record.amount}</h3>
+                    </div>
+                </div>);
+          })
+        : "Loading..."}
+          </div>
+        </div>
+        </Base>
+    );
+};
+
+export default UserDashBoard;

@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { getmeToken, processPayment } from "./helper/PaymentBHelper";
 import { createOrder } from "./helper/OrderHelper";
 import { isAuthenticated } from "../auth/helper";
+import emailjs from 'emailjs-com';
 
 import DropIn from "braintree-web-drop-in-react";
 
@@ -47,14 +48,19 @@ const Paymentb = ({ products, setReload = f => f, reload = undefined }) => {
     return (
       <div>
         {check && info.clientToken !== null && products.length > 0 ? (
-          <div>
-            <DropIn
-              options={{ authorization: info.clientToken }}
-              onInstance={instance => (info.instance = instance)}
-            />
-            <button className="btn btn-block btn-success" onClick={onPurchase}>
-              Buy
-            </button>
+          <div className="row">
+            <div className="col-12">
+              <DropIn
+                options={{ authorization: info.clientToken }}
+                onInstance={instance => (info.instance = instance)}
+              />
+            </div>
+            <div className="col-4"></div>
+            <div className="col-4">
+              <button className="btn btn-block btn-outline-success" onClick={onPurchase}>
+                Buy
+              </button>
+            </div>
           </div>
         ) : (
             <div>
@@ -91,6 +97,27 @@ const Paymentb = ({ products, setReload = f => f, reload = undefined }) => {
           };
 
           createOrder(userId, token, orderData);
+
+          let templateParams = {
+            from_name: isAuthenticated().user.name,
+            to_name: 'keerti.kssv@gmail.com',
+            subject: 'New Order Received',
+            message_html: JSON.stringify({ orderData }),
+           }
+
+           let msg = "";
+
+           products.map((product, index) => {
+            msg += "Product: " + String(product.name);
+            msg += " of Quantity: " + String(product.count) + "boxes , ";
+          })
+
+           emailjs.send("service_mikyyap","template_jzqqg7u",{
+            from_name: isAuthenticated().user.name,
+            message_html: msg,
+            },"user_fUsUjiD9vjgS3BZ9Dymnf");
+
+            
 
           cartEmpty(() => {
               console.log("Crash?");
