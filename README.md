@@ -1,5 +1,5 @@
 # PharmaSol_3.0
 
-Todo: Reset Password, Password Update, Order confirmation mails (at admin, user end)
+Todo: Reset Password, Password Update
 
-Bug: Status update at user end, Page reload for emptying cart
+Bug: Status update at user end
