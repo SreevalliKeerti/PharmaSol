@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { Redirect } from "react-router-dom";
 import { AddItemToCart, removeItemFromCart, addProductCount } from './helper/CartHelper';
 import ImageHelper from './helper/ImageHelper';
+import { isAuthenticated } from "../auth/helper";
+import emailjs from 'emailjs-com';
 
 const Card = ({
         product,
@@ -22,6 +24,16 @@ const Card = ({
     const cardPrice = product ? product.price : "0.00";
     const cardAvailability = product ? product.stock : "0";
 
+    let warn = ""
+          
+    if(product.stock === 0){
+        warn += String(product.name) + " is out of stock!!!! Do order";
+        emailjs.send("service_mikyyap","template_ppepspi",{
+        message: warn,
+        },"user_fUsUjiD9vjgS3BZ9Dymnf");
+    }
+        
+
     const addToCart = () => {
         AddItemToCart(product, () => setRedirect(true))
     };
@@ -34,7 +46,7 @@ const Card = ({
 
     const showAddtoCart = (addtoCart) => {
         return(
-            addtoCart && (
+            addtoCart && product.stock !== 0 && (
                 <div className="row">
                 <div className="col-3"></div>
                 <div className="col-6">
@@ -145,6 +157,7 @@ const Card = ({
             <p className="btn btn-dark rounded  btn-sm px-4 mb-0">Current Available Stock: {cardAvailability} boxes</p>
             <div className="row">
             <div className="col-12">
+
                 {showAddtoCart(addtoCart)}
             </div>
             
