@@ -3,6 +3,7 @@ const { check, validationResult } = require('express-validator');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 
+
 exports.signup = (req, res) => {
 
     const errors = validationResult(req);
@@ -79,7 +80,8 @@ exports.signout = (req, res) => {
 //Protected routes
 exports.isSignedIn = expressJwt({
     secret: process.env.SECRET,
-    userProperty: "auth"
+    userProperty: "auth",
+    algorithms: ['HS256']
 });
 
 //Custom middlewares

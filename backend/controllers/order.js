@@ -47,12 +47,12 @@ exports.createOrder = (req, res) => {
             html: `<h3>Hi ${req.body.order.user.name}!!</h3><p>We received your order
                     ${order.products.map((product, index) => {
                         return(product.name);
-                    })} products of quantity
+                    })} product(s) of quantity
                     ${order.products.map((product, index) => {
                         return(product.count);
-                    })} boxes each</p>
-                    <h5>Regards,</h5>
-                    <h5>Bioscodex</h5>`
+                    })} box(es) each</p>
+                    <h4>Regards,</h4>
+                    <h4>Bioscodex</h4>`
         };
 
         transporter.sendMail(mailOptions, function(error, info) {
@@ -118,7 +118,7 @@ exports.updateStatus = (req, res) => {
                         if (err) {
                             console.log(err);
                         } else {
-                            //console.log(info.purchases);
+                            //console.log(info);
                             info.purchases.forEach(purchase => {
                                     if (purchase._id == product._id) {
                                         purchase.status = order.status;
@@ -133,6 +133,25 @@ exports.updateStatus = (req, res) => {
                                     }
                                 })
                                 //console.log(info);
+                            const mailOptions = {
+                                from: 'ksskeerti@gmail.com',
+                                to: info.email,
+                                subject: `You Order is ${order.status}!`,
+                                html: `<h3>Hi ${info.name}!!</h3><p>Your order of
+                                                    ${order.products.map((product, index) => {
+                                                        return(product.name);
+                                                    })} product(s) is ${order.status}</p>
+                                                    <h4>Regards,</h4>
+                                                    <h4>Bioscodex</h4>`
+                            };
+
+                            transporter.sendMail(mailOptions, function(error, info) {
+                                if (error) {
+                                    console.log(error);
+                                } else {
+                                    //console.log('Email sent: ' + info.response);
+                                }
+                            });
                         }
                     });
                 })
