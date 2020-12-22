@@ -100,24 +100,24 @@ const Paymentb = ({ products, setReload = f => f, reload = undefined }) => {
 
           let templateParams = {
             from_name: isAuthenticated().user.name,
-            to_name: 'keerti.kssv@gmail.com',
+            to_name: process.env.EMAILID,
             subject: 'New Order Received',
             message_html: JSON.stringify({ orderData }),
            }
 
-           let msg = "";
+          let msg = "";
 
-           products.map((product, index) => {
-            msg += "Product: " + String(product.name);
-            msg += " of Quantity: " + String(product.count) + "boxes , ";
-          })
+          products.map((product, index) => {
+          msg += "Product: " + String(product.name);
+          msg += " of Quantity: " + String(product.count) + "boxes , ";
+        })
 
-           emailjs.send("service_mikyyap","template_jzqqg7u",{
-            from_name: isAuthenticated().user.name,
-            message_html: msg,
-            },"user_fUsUjiD9vjgS3BZ9Dymnf");
+          emailjs.send("service_mikyyap","template_jzqqg7u",{
+          from_name: isAuthenticated().user.name,
+          message_html: msg,
+          },"user_fUsUjiD9vjgS3BZ9Dymnf");
 
-            
+          
 
           cartEmpty(() => {
               console.log("Crash?");
