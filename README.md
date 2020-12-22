@@ -1,3 +1,3 @@
 # PharmaSol
 
-Pharmaceutical Management System
+
