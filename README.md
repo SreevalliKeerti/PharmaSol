@@ -2,7 +2,7 @@
 
 The following are among the problems that lead to propose, creation, and development of PharmaSol:
 -	There is no effective management of information.  
--	Discrepancies of stock items. 
+-	Discrepancies in ordered products. 
 -	It is hard to determine the stock balance.
 
 The PharmaSol covered the following areas.  
